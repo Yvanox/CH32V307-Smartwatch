@@ -1,90 +1,91 @@
-# CH32V307V-R0开发板 BSP 说明
+# CH32V307V-R1 Development board BSP Instructions
 
-## 简介
+## Introduction
 
-主要内容如下：
+The main contents are as follows：
 
-- 开发板资源介绍
-- BSP 快速上手
-- 进阶使用方法
+- Introduction to development board resources
+- Get started quickly with BSP
+- Advanced usage
 
-通过阅读快速上手章节开发者可以快速地上手该 BSP，将 RT-Thread 运行在开发板上。在进阶使用指南章节，将会介绍更多高级功能，帮助开发者利用 RT-Thread 驱动更多板载资源。
+By reading the Quick Start chapter, developers can quickly get started with the BSP and run RT-Thread on the development board. In the Advanced User Guide chapter, more advanced functions will be introduced to help developers use RT-Thread to drive more onboard resources.
 
-## 开发板介绍
+## Development board introduction
 
-CH32V307V-R0 是 南京沁恒微电子(WCH) 推出的一款基于 RISC-V 内核的开发板，最高主频为 120Mhz，该开发板芯片为 CH32V307-R0。
+is a development board based on RISC-V core launched by Nanjing Qinheng Microelectronics (WCH). The highest frequency is 120Mhz. The chip of this development board is CH32V307-R1.
 
-开发板外观如下图所示：
+The appearance of the development board is shown in the following figure:
 
-![board](figures/board.png)
+![board](figures/CH32V307-R1.png)
 
-该开发板常用 **板载资源** 如下：
+The commonly used onboard are as follows:
 
-- MCU：CH32V307VCT6，主频 144MHz，FLASH和RAM四种配置
+- MCU: CH32V307VCT6, main frequency 144MHz, four configurations of FLASH and RAM:
   288KB FLASH ，32KB RAM
   256KB FLASH ，64KB RAM
   224KB FLASH ，96KB RAM
   192KB FLASH ，128KB RAM
-- 常用外设
-  - LED：2个用户 LEDs， LED1（blue），LED2(red)。
-  - LED：power LED， D1。
-  - 按键，3个，Reset， User 和 Download。
-  - USB，2个，Tpye-C; 2个， USB-A
-  - 网口，1个，内置 10M PHY
+  
+- Common peripherals
+  - LEDs: 2 user LEDs.
+  - LED: power LED, D1.
+  - Buttons, 2, Reset adn User.
+  - USB, 3, Type-C.
+  - Ethernet port, 1, built-in 10M PHY
 
-开发板更多详细信息请参考 WCH 官方[开发板介绍]EVT包->PUB->CH32V307评估板说明书.pdf (http://www.wch.cn/downloads/CH32V307EVT_ZIP.html)。
+For more details about the development board, please refer to the official WCH [Development Board Introduction] EVT Package->PUB->CH32V307 Evaluation Board Instructions.pdf ( http://www.wch.cn/downloads/CH32V307EVT_ZIP.html).
 
-## 外设支持
+## Peripheral support
 
-本 BSP 目前对外设的支持情况如下：
+The current BSP support for peripherals is as follows:
 
-| **片上外设** | **支持情况** | **备注**                                  |
-| GPIO         |     支持     | PA PB PC PD PE                               |
-| UART         |     支持     | UART0/1/2/3/4/5/6/7/8                                 |
-| SDIO         |     即将支持     |                                           |
-| ADC          |     支持     | 10bit ADC1/2                                 |
-| DAC          |     支持     | 10bit DAC channel 1/2                                 |
-| ETH          |     支持     | 10M                                 |
-| SPI          |   即将支持   |                                  |
-| I2C          |     即将支持     |                                   |
-| RTC          |     即将支持     |                                           |
-| WDT          |     即将支持     |                                           |
-| FLASH        |   即将支持   |                                   |
-| TIMER        |     即将支持     |                                           |
-| PWM          |     即将支持     | |
-| USB Device   |   即将支持   |                                           |
-| USB Host     |   即将支持   |                                           |
+| **On-Chip Peripherals** | **Support ** | **Remarks ** |
+| GPIO                    |     支持        | PA PB PC PD PE         |
+| UART                    |     支持        | UART0/1/2/3/4/5/6/7/8  |
+| SDIO                    |     即将支持    |                        |
+| ADC                     |     支持        | 10bit ADC1/2           |
+| DAC                     |     支持        | 10bit DAC channel 1/2  |
+| ETH                     |     支持        | 10M                    |
+| SPI                     |   即将支持       |                       |
+| I2C                     |     即将支持     |                       |
+| RTC                     |     即将支持     |                       |
+| WDT                     |     即将支持     |                       |
+| FLASH                   |   即将支持       |                       |
+| TIMER                   |     即将支持     |                       |
+| PWM                     |     即将支持     |                       |
+| USB Device              |   即将支持       |                       |
+| USB Host                |   即将支持       |                       |
 
-## 使用说明
+## Instructions for use
 
-使用说明分为如下两个章节：
+The instructions for use are divided into the following two chapters:
 
-- 快速上手
+- Get started quickly
 
-    本章节是为刚接触 RT-Thread 的新手准备的使用说明，遵循简单的步骤即可将 RT-Thread 操作系统运行在该开发板上，看到实验效果 。
+This chapter is an instruction manual for those who are new to RT-Thread. Follow the simple steps to run the RT-Thread operating system on the development board and see the experimental results.
 
-- 进阶使用
+- Advanced use
 
-    本章节是为需要在 RT-Thread 操作系统上使用更多开发板资源的开发者准备的。通过使用 ENV 工具对 BSP 进行配置，可以开启更多板载资源，实现更多高级功能。
+This chapter is for developers who need to use more board resources on RT-Thread OS. By using the ENV tool to configure the BSP, more onboard resources can be turned on and more advanced functions can be realized.
 
 
-### 快速上手
+### Get started quickly
 
-本 BSP 为开发者提供 GCC 开发环境。下面介绍如何将系统运行起来。
+This BSP provides GCC development environment for developers. The following describes how to run the system.
 
-#### 硬件连接
+#### hardware connection
 
-使用数据线连接开发板到 PC，打开电源开关。
+Use the data cable to connect the development board to the PC, and turn on the power switch.
 
-#### 编译下载
+#### Compile and download
 
-通过 `RT-Thread Studio` 或者 `scons` 编译得到 `.dcf` 固件，通过 `Downloader` 进行下载
+Get the firmware through `RT-Thread Studio` or compile, download through `scons` `.dcf` 固件，`Downloader`
 
-#### 运行结果
+#### operation result
 
-下载程序成功之后，系统会自动运行，观察开发板上 LED 的运行效果，红色 LED 会周期性闪烁。
+After downloading the program successfully, the system will automatically run, observe the running effect of the LED on the development board, and the red LED will flash periodically.
 
-连接开发板对应串口到 PC , 在终端工具里打开相应的串口（115200-8-1-N），复位设备后，可以看到 RT-Thread 的输出信息:
+Connect the corresponding serial port of the development board to the PC, open the corresponding serial port (115200-8-1-N) in the terminal tool, after resetting the device, you can see the output information of RT-Thread:
 
 ```bash
  \ | /
@@ -101,23 +102,19 @@ adc1 init successdacc1 init success
 
 msh >
 ```
-### 进阶使用
+### Advanced use
 
-此 BSP 默认只开启了 GPIO 和 串口1 的功能，如果需使用 ETH、ADC 等更多高级功能，需要利用 ENV 工具对BSP 进行配置，步骤如下：
+This BSP only enables the functions of GPIO and serial port 1 by default. If you need to use more advanced functions such as ETH and ADC, you need to use the ENV tool to configure the BSP. The steps are as follows:
 
-1. 在 bsp 下打开 env 工具。
+1. Open the env tool under bsp.
 
-2. 输入`menuconfig`命令配置工程，配置好之后保存退出。
+2. Enter `menuconfig` the command to configure the project, save and exit after the configuration is complete.
 
-3. 输入`pkgs --update`命令更新软件包。
+3. Enter `pkgs --update` the command to update the package.
 
-4. 输入`scons` 命令重新编译工程。
+4. Enter `scons` the command to recompile the project.
 
-## 注意事项
+## Precautions
 
-波特率默认为 115200Kbps，烧录代码需去我司官网(http://www.wch.cn/downloads/WCHISPTool_Setup_exe.html)下载ISP工具进行烧录，之后版本会支持我司WCH-Link-两线SWD下载。
+The baud rate is 115200Kbps by default, the programming code needs to go to our official website ( http://www.wch.cn/downloads/WCHISPTool_Setup_exe.html) to download the ISP tool for programming, and the later version will support our WCH-Link-Two Online SWD download.
 
-
-## 维护人信息
-
--
